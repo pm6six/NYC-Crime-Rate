@@ -1,0 +1,4 @@
+pandas
+folium>=0.20
+branca>=0.8
+matplotlib
