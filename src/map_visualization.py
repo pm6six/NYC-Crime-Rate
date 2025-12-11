@@ -6,10 +6,19 @@ from folium.plugins import HeatMap
 
 def create_heatmap_by_offense(
     df: pd.DataFrame,
+    precinct_geojson_path: str,
     out_html: str = "output/nyc_crime_heatmap_by_offense.html",
     offenses: list[str] | None = None,
     top_k: int = 6,
 ):
+    """
+    One heatmap layer per offense + a LayerControl selector.
+
+    This map shows *crime density*, not per-precinct totals.
+    Legend explains intensity (hotspots), not numeric precinct counts.
+    Also computes an approximate mapping from "light/medium/dark" to
+    example ranges of incident counts
+    """
     # filter to rows with coordinates in NYC bounds
     pts = df.dropna(subset=["Latitude", "Longitude"]).copy()
     pts = pts[
@@ -40,9 +49,9 @@ def create_heatmap_by_offense(
         med_max = max(q50, low_max + 1)
         high_max = max(q80, med_max + 1)
     else:
-        low_max, med_max, high_max = 1, 2, 3
+        low_max, med_max, high_max = 1, 2, 3  # fallback
 
-    # ---------- BUILD THE MAP ----------
+    # build a map
     m = folium.Map(location=[40.73, -73.96], zoom_start=12, tiles="cartodbpositron")
 
     # All crimes = green color
@@ -133,7 +142,7 @@ def create_heatmap_by_offense(
 
     folium.LayerControl(collapsed=False).add_to(m)
 
-    # Description of the meaning of color/density
+    # description of color/density
     legend_html = f"""
     <div style="
         position: fixed;

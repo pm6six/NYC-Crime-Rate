@@ -1,4 +1,3 @@
-# src/time_series.py
 import pandas as pd
 import matplotlib.pyplot as plt
 from statsmodels.tsa.arima.model import ARIMA
@@ -23,7 +22,7 @@ def make_borough_series(
         .sort_index()
     )
 
-    # Regular monthly index, fill missing months with 0
+    # monthly index, fill missing months with 0
     s = s.asfreq(freq).fillna(0)
 
     return s
@@ -39,8 +38,8 @@ def fit_arima_forecast(
 
     Returns:
         result_df: index = dates, columns:
-            - actual   (observed counts; NaN for future)
-            - forecast (model predictions)
+            - 'actual'   (observed counts; NaN for future)
+            - 'forecast' (model predictions)
         model_fit: fitted ARIMA object
     """
     if len(series) <= holdout + 5:

@@ -3,7 +3,7 @@ from src.cleaningData import load_and_clean_data
 from src.analysis import monthly_borough_series
 from src.time_series import make_borough_series, fit_arima_forecast, plot_forecast
 
-# change the file name, depending on the file name
+# adjust file name
 HISTORIC_CSV = "data/NYPD_Complaint_2022_2025.csv"
 
 BOROUGHS = [
