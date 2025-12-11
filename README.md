@@ -21,6 +21,8 @@ Click Export and download the CSV file.
 Go to https://data.cityofnewyork.us/City-Government/Police-Precincts/y76i-bdw7/about_data
 Click Export and download the GeoJson file.
 
+Store All three files into the Data folder
+
 # Requirements
 Download required libraries, which were written in requirements.txt by using the following command.
 pip install -r requirements.txt
