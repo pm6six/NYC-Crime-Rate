@@ -26,7 +26,6 @@ Download required libraries, which were written in requirements.txt by using the
 pip install -r requirements.txt
 
 # How to create forecasting png files?
-'''bash
 python main_forecasting.py
 png files are created under output folder
 
