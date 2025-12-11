@@ -47,7 +47,7 @@ def load_and_clean_data(csv_path: str) -> pd.DataFrame:
     df["CMPLNT_TO_DT"] = pd.to_datetime(df["CMPLNT_TO_DT"], errors="coerce")
     df = df.dropna(subset=["CMPLNT_FR_DT"])
 
-    # Strings (upper for consistent matching)
+    # Strings (upper is used for consistent matching)
     df["OFNS_DESC"] = df["OFNS_DESC"].fillna("UNKNOWN").str.upper().str.strip()
     df["BORO_NM"] = df["BORO_NM"].astype("string").str.upper().str.strip()
 

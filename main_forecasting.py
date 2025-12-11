@@ -1,14 +1,11 @@
-# main_forecasting.py
 import os
 from src.cleaningData import load_and_clean_data
 from src.analysis import monthly_borough_series
 from src.time_series import make_borough_series, fit_arima_forecast, plot_forecast
 
-# 🔧 your new historic file (filtered to 2013–2019 + 2023–2025)
+# change the file name, depending on the file name
 HISTORIC_CSV = "data/NYPD_Complaint_2022_2025.csv"
 
-
-# Borough names in your dataset (use upper-case strings)
 BOROUGHS = [
     "MANHATTAN",
     "BROOKLYN",
@@ -38,9 +35,9 @@ def main():
 
         result_df, model_fit = fit_arima_forecast(
             series,
-            order=(1, 1, 1),      # simple starting point; can be tuned
-            forecast_horizon=12,  # next 12 months
-            holdout=12,           # last 12 months as test set
+            order=(1, 1, 1),
+            forecast_horizon=12,
+            holdout=12,
         )
 
         # Save forecast table

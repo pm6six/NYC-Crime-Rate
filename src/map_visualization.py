@@ -6,20 +6,11 @@ from folium.plugins import HeatMap
 
 def create_heatmap_by_offense(
     df: pd.DataFrame,
-    precinct_geojson_path: str,   # kept for API symmetry; not used here
     out_html: str = "output/nyc_crime_heatmap_by_offense.html",
     offenses: list[str] | None = None,
     top_k: int = 6,
 ):
-    """
-    One heatmap layer per offense + a LayerControl selector.
-
-    This map shows *crime density*, not per-precinct totals.
-    Legend explains intensity (hotspots), not numeric precinct counts.
-    Also computes an approximate mapping from "light/medium/dark" to
-    example ranges of incident counts in small spatial bins.
-    """
-    # --- filter to rows with coordinates in NYC bounds ---
+    # filter to rows with coordinates in NYC bounds
     pts = df.dropna(subset=["Latitude", "Longitude"]).copy()
     pts = pts[
         (pts["Latitude"].between(40.45, 40.95)) &
@@ -35,8 +26,7 @@ def create_heatmap_by_offense(
             .tolist()
         )
 
-    # ---------- APPROXIMATE COUNT RANGES FOR LEGEND ----------
-    # Make a simple grid by rounding lat/lon (≈ 100–150m cells)
+    # a simple grid by rounding lat/lon
     grid = pts.copy()
     grid["lat_bin"] = grid["Latitude"].round(3)
     grid["lon_bin"] = grid["Longitude"].round(3)
@@ -50,12 +40,12 @@ def create_heatmap_by_offense(
         med_max = max(q50, low_max + 1)
         high_max = max(q80, med_max + 1)
     else:
-        low_max, med_max, high_max = 1, 2, 3  # fallback
+        low_max, med_max, high_max = 1, 2, 3
 
     # ---------- BUILD THE MAP ----------
     m = folium.Map(location=[40.73, -73.96], zoom_start=12, tiles="cartodbpositron")
 
-    # All crimes = neutral green
+    # All crimes = green color
     all_gradient = {
         0.2: "#b2df8a",
         0.4: "#66c2a5",
@@ -110,7 +100,7 @@ def create_heatmap_by_offense(
         },
     ]
 
-    # All crimes (default visible)
+    # All crimes (default)
     fg_all = FeatureGroup(name="All crimes", show=True)
     HeatMap(
         data=pts[["Latitude", "Longitude"]].values.tolist(),
@@ -143,7 +133,7 @@ def create_heatmap_by_offense(
 
     folium.LayerControl(collapsed=False).add_to(m)
 
-    # ---------- LEGEND WITH NUMERIC EXAMPLE ----------
+    # Description of the meaning of color/density
     legend_html = f"""
     <div style="
         position: fixed;

@@ -39,8 +39,8 @@ def fit_arima_forecast(
 
     Returns:
         result_df: index = dates, columns:
-            - 'actual'   (observed counts; NaN for future)
-            - 'forecast' (model predictions)
+            - actual   (observed counts; NaN for future)
+            - forecast (model predictions)
         model_fit: fitted ARIMA object
     """
     if len(series) <= holdout + 5:
@@ -60,7 +60,7 @@ def fit_arima_forecast(
 
     # Build combined DataFrame
     future_index = pd.date_range(
-        series.index[-1] + series.index.freq,  # next month
+        series.index[-1] + series.index.freq,
         periods=forecast_horizon,
         freq=series.index.freq,
     )

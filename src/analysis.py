@@ -12,7 +12,7 @@ def summarize_by_precinct(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 def summarize_by_precinct_offense(df: pd.DataFrame) -> pd.DataFrame:
-    """Complaints per precinct × offense."""
+    """Complaints per precinct offense."""
     out = (
         df.groupby(["ADDR_PCT_CD", "OFNS_DESC"])
           .size()
@@ -35,7 +35,7 @@ def monthly_borough_series(df: pd.DataFrame) -> pd.DataFrame:
     Monthly crime counts per borough.
 
     Expects df to already have a 'MONTH' column (Timestamp at month start),
-    which you already create in load_and_clean_data().
+    which is already created in load_and_clean_data().
 
     Returns columns:
         - MONTH (Timestamp)
